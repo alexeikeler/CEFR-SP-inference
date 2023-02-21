@@ -2,3 +2,6 @@ transformers
 tokenizers
 pytorch-lightning==1.5.3
 tensorboard
+scipy
+scikit-learn
+seaborn

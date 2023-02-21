@@ -1,3 +1,10 @@
+# Updated run commands
+```shell
+python level_estimator.py --model bert-base-cased --lm_layer 11 --seed 935 --num_labels 6 --batch 128 --warmup 0 --with_loss_weight --num_prototypes 3 --type contrastive --init_lr 1.0e-5 --alpha 0.2 --data ../CEFR-SP/SCoRE/CEFR-SP_SCoRE --test ../CEFR-SP/SCoRE/CEFR-SP_SCoRE --out ../out/
+```
+
+
+
 # CEFR-Based Sentence Difficulty Annotation and Assessment
 
 CEFR-SP provides 17k English sentences annotated with CEFR levels assigned by English-education professionals. 
