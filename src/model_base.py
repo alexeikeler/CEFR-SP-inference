@@ -100,8 +100,8 @@ class LevelEstimaterBase(pl.LightningModule):
         logs = {"score": eval_score}
 
         if test:
-            eval_multiclass(self.logger.log_dir + '/sentence', gold_labels, pred_labels)
-            with open(self.logger.log_dir + '/test_predictions.txt', 'w') as fw:
+            eval_multiclass(self.logger.save_dir + '/sentence', gold_labels, pred_labels)
+            with open(self.logger.save_dir + '/test_predictions.txt', 'w') as fw:
                 fw.write('Sentence_Lv\n')
                 for sent_lv in pred_labels:
                     fw.write('{0}\n'.format(sent_lv))

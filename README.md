@@ -1,4 +1,12 @@
 # Updated run commands
+Concat the two datasets:
+```shell
+mkdir CEFR-SP/all
+cat CEFR-SP/SCoRE/CEFR-SP_SCoRE_train.txt CEFR-SP/Wiki-Auto/CEFR-SP_Wikiauto_train.txt > CEFR-SP/all/all_train.txt
+cat CEFR-SP/SCoRE/CEFR-SP_SCoRE_dev.txt CEFR-SP/Wiki-Auto/CEFR-SP_Wikiauto_dev.txt > CEFR-SP/all/all_dev.txt
+cat CEFR-SP/SCoRE/CEFR-SP_SCoRE_test.txt CEFR-SP/Wiki-Auto/CEFR-SP_Wikiauto_test.txt > CEFR-SP/all/all_test.txt
+```
+
 ```shell
 python level_estimator.py --model bert-base-cased --lm_layer 11 --seed 935 --num_labels 6 --batch 128 --warmup 0 --with_loss_weight --num_prototypes 3 --type contrastive --init_lr 1.0e-5 --alpha 0.2 --data ../CEFR-SP/SCoRE/CEFR-SP_SCoRE --test ../CEFR-SP/SCoRE/CEFR-SP_SCoRE --out ../out/
 ```

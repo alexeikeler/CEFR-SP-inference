@@ -7,7 +7,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.callbacks import LearningRateMonitor
-from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 import numpy as np
 from util import eval_multiclass, read_corpus, convert_numeral_to_six_levels
 from model import LevelEstimaterClassification, LevelEstimaterContrastive
@@ -38,6 +38,8 @@ parser.add_argument('--ib_beta', help='beta for information bottleneck', type=fl
 parser.add_argument('--word_num_labels', help='number of attention heads', type=int, default=4)
 parser.add_argument('--with_ib', action='store_true')
 parser.add_argument('--attach_wlv', action='store_true')
+parser.add_argument('--run_name')
+parser.add_argument('--max_epochs', type=int, default=-1)
 ####################################################################
 args = parser.parse_args()
 torch.manual_seed(args.seed)
@@ -54,7 +56,8 @@ if __name__ == '__main__':
         save_dir += '_num_prototypes' + str(args.num_prototypes)
 
     save_dir += '_' + args.model.replace('../pretrained_model/', '').replace('/', '')
-    logger = TensorBoardLogger(save_dir=args.out, name=save_dir)
+
+    logger = WandbLogger(project='difficulty', entity='mantra-inc', name=args.run_name, save_dir=args.out)
 
     # saves a file like: my/path/sample-mnist-epoch=02-val_loss=0.32.ckpt
     checkpoint_callback = ModelCheckpoint(
@@ -141,7 +144,8 @@ if __name__ == '__main__':
     else:
         # w/o learning rate tuning
         trainer = pl.Trainer(gpus=gpus, logger=logger, val_check_interval=args.val_check_interval,
-                             callbacks=[checkpoint_callback, early_stop_callback, lr_monitor])
+                             callbacks=[checkpoint_callback, early_stop_callback, lr_monitor],
+                             max_epochs=args.max_epochs)
         trainer.fit(lv_estimater)
 
         # automatically loads the best weights for you

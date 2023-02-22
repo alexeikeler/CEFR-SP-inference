@@ -5,3 +5,4 @@ tensorboard
 scipy
 scikit-learn
 seaborn
+wandb
