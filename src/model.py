@@ -44,7 +44,8 @@ class LevelEstimaterClassification(LevelEstimaterBase):
         logits = self.slv_classifier(self.dropout(outputs))
 
         if self.problem_type == "regression":
-            predictions = convert_numeral_to_six_levels(logits.detach().clone().cpu().numpy())
+            # convert_numeral_to_six_levels returns NP array, need to get it back to a tensor for use later
+            predictions = torch.from_numpy(convert_numeral_to_six_levels(logits.detach().clone().cpu().numpy()))
         else:
             predictions = torch.argmax(torch.softmax(logits.detach().clone(), dim=1), dim=1, keepdim=True)
 
