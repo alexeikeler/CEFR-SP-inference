@@ -48,9 +48,9 @@ def main():
                 text_input = [x['text'] for x in itertools.islice(infile, args.batch_size)]
                 inputs = tokenizer(text_input, return_tensors='pt', padding=True)
                 with torch.no_grad():
-                    outputs = model(inputs, return_logits=True).tolist()
+                    outputs = model(inputs.to(model.device), return_logits=True).squeeze().tolist()
 
-                assert len(text) == len(difficulty)
+                assert len(text_input) == len(outputs)
                 for text, difficulty in zip(text_input, outputs):
                     outfile.write({
                         'text': text,
