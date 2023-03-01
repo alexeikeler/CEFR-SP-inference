@@ -7,8 +7,17 @@ cat CEFR-SP/SCoRE/CEFR-SP_SCoRE_dev.txt CEFR-SP/Wiki-Auto/CEFR-SP_Wikiauto_dev.t
 cat CEFR-SP/SCoRE/CEFR-SP_SCoRE_test.txt CEFR-SP/Wiki-Auto/CEFR-SP_Wikiauto_test.txt > CEFR-SP/all/all_test.txt
 ```
 
+Train the model:
 ```shell
-python level_estimator.py --model bert-base-cased --lm_layer 11 --seed 935 --num_labels 6 --batch 128 --warmup 0 --with_loss_weight --num_prototypes 3 --type contrastive --init_lr 1.0e-5 --alpha 0.2 --data ../CEFR-SP/SCoRE/CEFR-SP_SCoRE --test ../CEFR-SP/SCoRE/CEFR-SP_SCoRE --out ../out/
+python level_estimator.py --model bert-base-cased --lm_layer 11 --seed 935 --num_labels 6 --batch 128 --warmup 0\
+ --with_loss_weight --type regression --init_lr 1.0e-5 --alpha 0.2 --data ../CEFR-SP/all/all --test ../CEFR-SP/all/all\
+  --out ../out/ --run_name regr_all_repeat
+```
+
+Compute difficulties:
+```shell
+CUDA_VISIBLE_DEVICES=0 python difficulty_for_text.py --input ~/langaku-server/region_diff_data.jsonl \
+--model ../out/difficulty/v2bd3w5h/checkpoints/level_estimator-epoch=06-val_score=0.805472.ckpt 
 ```
 
 

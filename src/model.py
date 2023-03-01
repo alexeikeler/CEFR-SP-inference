@@ -37,11 +37,13 @@ class LevelEstimaterClassification(LevelEstimaterBase):
             else:
                 self.loss_fct = nn.CrossEntropyLoss()
 
-    def forward(self, inputs):
+    def forward(self, inputs, return_logits=False):
         # in lightning, forward defines the prediction/inference actions
         outputs, information_loss = self.encode(inputs)
         outputs = mean_pooling(outputs, attention_mask=inputs['attention_mask'])
         logits = self.slv_classifier(self.dropout(outputs))
+        if return_logits:
+            return logits
 
         if self.problem_type == "regression":
             # convert_numeral_to_six_levels returns NP array, need to get it back to a tensor for use later
