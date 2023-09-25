@@ -39,7 +39,7 @@ parser.add_argument('--word_num_labels', help='number of attention heads', type=
 parser.add_argument('--with_ib', action='store_true')
 parser.add_argument('--attach_wlv', action='store_true')
 parser.add_argument('--run_name')
-parser.add_argument('--max_epochs', type=int, default=-1)
+parser.add_argument('--max_epochs', type=int, default=10)
 ####################################################################
 args = parser.parse_args()
 torch.manual_seed(args.seed)
